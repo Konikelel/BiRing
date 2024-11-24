@@ -1,0 +1,4 @@
+C:/Dane/Programowanie/C++/Sem3/Lab2/cmake-build-debug/CMakeFiles/ProjectSourcesLib.dir
+C:/Dane/Programowanie/C++/Sem3/Lab2/cmake-build-debug/CMakeFiles/program.dir
+C:/Dane/Programowanie/C++/Sem3/Lab2/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Dane/Programowanie/C++/Sem3/Lab2/cmake-build-debug/CMakeFiles/rebuild_cache.dir

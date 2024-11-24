@@ -1,0 +1,3 @@
+C:/Dane/Programowanie/C++/Sem3/Lab2/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/googletest-populate.dir
+C:/Dane/Programowanie/C++/Sem3/Lab2/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/edit_cache.dir
+C:/Dane/Programowanie/C++/Sem3/Lab2/cmake-build-debug/_deps/googletest-subbuild/CMakeFiles/rebuild_cache.dir
