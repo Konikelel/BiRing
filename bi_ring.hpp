@@ -66,12 +66,12 @@ public:
 	bool clear();
 	[[nodiscard]] size_t size() const;
 	[[nodiscard]] bool isEmpty() const;
-	iterator begin() const;
-	const_iterator cbegin() const;
+	iterator& begin() const;
+	const_iterator& cbegin() const;
 	bool exist(const Key& key, unsigned int occ = 1) const;
 
-	iterator get(const Key& key, unsigned int occ = 1) const;
-	const_iterator cget(const Key& key, unsigned int occ = 1) const;
+	iterator& get(const Key& key, unsigned int occ = 1) const;
+	const_iterator& cget(const Key& key, unsigned int occ = 1) const;
 	bool get(const Key& key, iterator& result, unsigned int occ = 1) const;
 	bool cget(const Key& key, const_iterator& result, unsigned int occ = 1) const;
 
@@ -92,6 +92,7 @@ public:
 };
 
 #include "bi_ring_impl_iterators.tpp"
+#include "bi_ring_impl.tpp"
 
 
 #endif // SINGLY_LINKED_LIST_H
