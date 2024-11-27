@@ -16,84 +16,87 @@ class BiRing
 	Node* pStart;
 	size_t count;
 
-	class base_iterator
+	template <typename Derived>
+	class base_iterator //NOLINT
 	{
 	public:
 		base_iterator() : pCurr(nullptr), pRing(nullptr) {}
 		base_iterator(Node* node, const BiRing* ring) : pCurr(node), pRing(ring) {}
 		virtual ~base_iterator() = default;
 
-		virtual base_iterator& operator++();
-		virtual base_iterator& operator--();
-		virtual base_iterator operator++(int);
-		virtual base_iterator operator--(int);
-		virtual base_iterator operator+(int nr);
-		virtual base_iterator operator-(int nr);
-		virtual base_iterator& operator+=(int nr);
-		virtual base_iterator& operator-=(int nr);
-		base_iterator& operator=(const base_iterator& other);
+		virtual Derived& operator++() { return this->move(true); }
+		virtual Derived& operator--() { return this->move(false); }
+		virtual Derived operator++(int);
+		virtual Derived operator--(int);
+		virtual Derived operator+(int nr);
+		virtual Derived operator-(int nr);
+		virtual Derived& operator+=(const int nr) { return this->move(nr); }
+		virtual Derived& operator-=(const int nr) { return this->move(-nr); }
+		Derived& operator=(const Derived& other);
 
 		[[nodiscard]] bool isValid() const { return this->pCurr != nullptr; }
-		bool operator==(const base_iterator& other) const { return this->pCurr == other.pCurr; }
-		bool operator!=(const base_iterator& other) const { return this->pCurr != other.pCurr; }
+		[[nodiscard]] bool isInRing(const BiRing& ring) { return this->pRing == &ring; }
+		bool operator==(const Derived& other) const { return this->pCurr == other.pCurr; }
+		bool operator!=(const Derived& other) const { return this->pCurr != other.pCurr; }
 		friend BiRing;
 	protected:
 		Node* pCurr;
 		const BiRing* pRing;
 		
-		virtual base_iterator& move(bool forward);
-		virtual base_iterator& move(base_iterator& obj, int nr);
-		virtual base_iterator& move(int nr);
+		virtual Derived& move(bool forward);
+		virtual Derived& move(Derived& obj, int nr);
+		virtual Derived& move(int nr);
 	};
 
 	Node* remove(Node* target);
 	Node* insert(Node* target, const Key& key, const Info& info);
 public:
-	class iterator final : public base_iterator
+	class iterator final : public base_iterator<iterator>
 	{
 	public:
-		using base_iterator::base_iterator;
-		using base_iterator::operator=;
+		iterator(base_iterator<iterator>& other) { this->pCurr = other.pCurr; this->pRing = other.pRing; }
+		iterator(base_iterator<iterator>&& other) { this->pCurr = std::move(other.pCurr); this->pRing = std::move(other.pRing); }
+		using base_iterator<iterator>::base_iterator;
 		Key& getKey() const { return this->pCurr->key; }
 		Info& getInfo() const { return this->pCurr->info; }
 		Info& operator*() const { return this->pCurr->info; }
 	};
 	
-	class const_iterator final : public base_iterator
+	class const_iterator final : public base_iterator<const_iterator>
 	{
 	public:
-		using base_iterator::base_iterator;
-		using base_iterator::operator=;
+		const_iterator(base_iterator<const_iterator>& other) { this->pCurr = other.pCurr; this->pRing = other.pRing; }
+		const_iterator(base_iterator<const_iterator>&& other) { this->pCurr = std::move(other.pCurr); this->pRing = std::move(other.pRing); }
+		const_iterator(iterator&& other) { this->pCurr = std::move(other.pCurr); this->pRing = std::move(other.pRing); }
+		using base_iterator<const_iterator>::base_iterator;
 		const Key& getKey() const { return this->pCurr->key; }
 		const Info& getInfo() const { return this->pCurr->info; }
 		const Info& operator*() const { return this->pCurr->info; }
 	};
 	
 	BiRing(): pStart(nullptr), count(0) {}
-	BiRing(const BiRing& src);
-	~BiRing();
+	BiRing(const BiRing& src): BiRing() { this->append(src); }
+	~BiRing() { this->clear(); }
 
 	bool clear();
-	[[nodiscard]] size_t size() const;
-	[[nodiscard]] bool isEmpty() const;
+	[[nodiscard]] size_t size() const { return this->count; }
+	[[nodiscard]] bool isEmpty() const { return !this->size(); }
+	
 	iterator begin() const;
-	const_iterator cbegin() const;
-	bool exist(const Key& key, unsigned int occ = 1) const;
-
-	iterator get(const Key& key, unsigned int occ = 1) const;
-	const_iterator cget(const Key& key, unsigned int occ = 1) const;
+	const_iterator cbegin() const { return this->begin(); }
+	bool exist(const Key& key, const unsigned int occ = 1) const { return this->get(key, occ).isValid(); }
 
 	const_iterator push(const Key& key, const Info& info);
+	iterator get(const Key& key, unsigned int occ = 1) const;
+	const_iterator cget(const Key& key, const unsigned int occ = 1) const { return this->get(key, occ); }
 
-	const_iterator insert(iterator& target, const Key& key, const Info& info);
-	const_iterator remove(iterator& target);
-	
+	iterator remove(iterator& target);
+	iterator insert(iterator& target, const Key& key, const Info& info);
+	const_iterator cremove(iterator& target) { return this->remove(target); }
+	const_iterator cinsert(iterator& target, const Key& key, const Info& info) { return this->insert(target, key, info); }
+
 	BiRing& operator=(const BiRing& src);
-
-	template <typename K, typename I>
-	friend std::ostream& operator<<(std::ostream& os, const BiRing<K, I>& ring);
 private:
-	bool isOtherIter(const base_iterator& it) const;
 	bool append(const BiRing& other);
 };
 

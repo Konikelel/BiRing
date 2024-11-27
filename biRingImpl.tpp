@@ -5,18 +5,6 @@
 #include "BiRing.hpp"
 
 template <typename Key, typename Info>
-BiRing<Key, Info>::BiRing(const BiRing& src): BiRing()
-{
-    this->append(src);
-}
-
-template <typename Key, typename Info>
-BiRing<Key, Info>::~BiRing()
-{
-    clear();
-}
-
-template <typename Key, typename Info>
 bool BiRing<Key, Info>::clear()
 {
     if (this->isEmpty())
@@ -31,34 +19,9 @@ bool BiRing<Key, Info>::clear()
 }
 
 template <typename Key, typename Info>
-size_t BiRing<Key, Info>::size() const
-{
-    return this->count;
-}
-
-template <typename Key, typename Info>
-bool BiRing<Key, Info>::isEmpty() const
-{
-    return !this->size();
-}
-
-template <typename Key, typename Info>
 typename BiRing<Key, Info>::iterator BiRing<Key, Info>::begin() const
 {
     return !this->isEmpty() ? iterator(this->pStart, this): iterator();
-}
-
-template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::cbegin() const
-{
-    iterator it = this->begin();
-    return const_iterator(it.pCurr, it.pRing);
-}
-
-template <typename Key, typename Info>
-bool BiRing<Key, Info>::exist(const Key& key, const unsigned int occ) const
-{
-    return this->get(key, occ).isValid();
 }
 
 template <typename Key, typename Info>
@@ -72,13 +35,6 @@ typename BiRing<Key, Info>::iterator BiRing<Key, Info>::get(const Key& key, unsi
         }
     }
     return iterator();
-}
-
-template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::cget(const Key& key, const unsigned int occ) const
-{
-    iterator it = this->get(key, occ);
-    return const_iterator(it.pCurr, it.pRing);
 }
 
 template <typename Key, typename Info>
@@ -110,14 +66,14 @@ typename BiRing<Key, Info>::Node* BiRing<Key, Info>::insert(Node* target, const 
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::insert(iterator& target, const Key& key, const Info& info)
+typename BiRing<Key, Info>::iterator BiRing<Key, Info>::insert(iterator& target, const Key& key, const Info& info)
 {
-    if (!target.isValid() || this->isOtherIter(target))
+    if (!target.isValid() || !target.isInRing(*this))
     {
-        return const_iterator();
+        return iterator();
     }
     Node* newNode = this->insert(target.pCurr, key, info);
-    return const_iterator(newNode, this);
+    return iterator(newNode, this);
 }
 
 template <typename Key, typename Info>
@@ -143,15 +99,15 @@ typename BiRing<Key, Info>::Node* BiRing<Key, Info>::remove(Node* target)
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::remove(iterator& target)
+typename BiRing<Key, Info>::iterator BiRing<Key, Info>::remove(iterator& target)
 {
-    if (!target.isValid() || this->isOtherIter(target))
+    if (!target.isValid() || !target.isInRing(*this))
     {
-        return const_iterator();
+        return iterator();
     }
     Node* prevNode = this->remove(target.pCurr);
     target.pCurr = nullptr;
-    return const_iterator(prevNode, this);
+    return iterator(prevNode, this);
 }
 
 template <typename Key, typename Info>
@@ -162,12 +118,6 @@ BiRing<Key, Info>& BiRing<Key, Info>::operator=(const BiRing& src)
         this->append(src);
     }
     return *this;
-}
-
-template <typename Key, typename Info>
-bool BiRing<Key, Info>::isOtherIter(const base_iterator& it) const
-{
-    return it.pRing != this;
 }
 
 template <typename Key, typename Info>

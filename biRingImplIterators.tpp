@@ -7,81 +7,64 @@
 #include "biRing.hpp"
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::operator++()
+template <typename Derived>
+Derived BiRing<Key, Info>::base_iterator<Derived>::operator++(int)
 {
-	return this->move(true);
-}
-
-template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::operator--()
-{
-	return this->move(false);
-}
-
-template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator BiRing<Key, Info>::base_iterator::operator++(int)
-{
-	auto temp = *this;
+	auto temp = static_cast<Derived>(*this);
 	this->operator++();
 	return temp;
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator BiRing<Key, Info>::base_iterator::operator--(int)
+template <typename Derived>
+Derived BiRing<Key, Info>::base_iterator<Derived>::operator--(int)
 {
-	auto temp = *this;
+	auto temp = static_cast<Derived>(*this);
 	this->operator--();
 	return temp;
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator BiRing<Key, Info>::base_iterator::operator+(const int nr)
+template <typename Derived>
+Derived BiRing<Key, Info>::base_iterator<Derived>::operator+(const int nr)
 {
-	auto temp = *this;
+	auto temp = static_cast<Derived>(*this);
 	return this->move(temp, nr);
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator BiRing<Key, Info>::base_iterator::operator-(const int nr)
+template <typename Derived>
+Derived BiRing<Key, Info>::base_iterator<Derived>::operator-(const int nr)
 {
-	auto temp = *this;
+	auto temp = static_cast<Derived>(*this);
 	return this->move(temp, -nr);
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::operator+=(const int nr)
-{
-	return this->move(nr);
-}
-
-template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::operator-=(const int nr)
-{
-	return this->move(-nr);
-}
-
-template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::operator=(const base_iterator& other)
+template <typename Derived>
+Derived& BiRing<Key, Info>::base_iterator<Derived>::operator=(const Derived& other)
 {
 	if (this != &other) {
 		this->pCurr = other.pCurr;
 	}
-	return *this;
+	return static_cast<Derived&>(*this);
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::move(const bool forward)
+template <typename Derived>
+Derived& BiRing<Key, Info>::base_iterator<Derived>::move(const bool forward)
 {
 	if (!this->isValid())
 	{
 		throw std::runtime_error("Cannot move not valid baseIterator");
 	}
 	this->pCurr = forward ? this->pCurr->next : this->pCurr->prev;
-	return *this;
+	return static_cast<Derived&>(*this);
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::move(base_iterator& obj, const int nr)
+template <typename Derived>
+Derived& BiRing<Key, Info>::base_iterator<Derived>::move(Derived& obj, const int nr)
 {
 	for(int i = 0; i < nr; ++i)
 	{
@@ -91,9 +74,10 @@ typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::mov
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::base_iterator& BiRing<Key, Info>::base_iterator::move(const int nr)
+template <typename Derived>
+Derived& BiRing<Key, Info>::base_iterator<Derived>::move(const int nr)
 {
-	return this->move(*this, nr);
+	return this->move(static_cast<Derived&>(*this), nr);
 }
 
 #endif //BI_RING_IMPL_ITERATORS_H
