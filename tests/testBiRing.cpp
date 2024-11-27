@@ -4,7 +4,7 @@
 #include "biRing.hpp"
 
 
-// BIRING CONSTRUCTORS
+// BI_RING CONSTRUCTORS
 TEST_F(BiRingFixture, BiRing_Constructor_InitializeEmpty)
 {
     ASSERT_TRUE(biRing.isEmpty());
@@ -34,7 +34,7 @@ TEST_F(BiRingFixture, BiRing_CopyConstructor_MultipleElementsList)
     ASSERT_EQ(biRing.begin().getKey(), copiedList.begin().getKey());
 }
 
-// BIRING DESTRUCTOR
+// BI_RING DESTRUCTOR
 TEST_F(BiRingFixture, BiRing_Destructor_Empty)
 {
     ASSERT_NO_THROW(biRing.~BiRing());
@@ -93,7 +93,7 @@ TEST_F(BiRingFixture, BiRing_IsEmpty_NotEmpty)
 // BEGIN
 TEST_F(BiRingFixture, BiRing_Begin_Empty)
 {
-    ASSERT_EQ(biRing.begin().isValid(), false);
+    ASSERT_FALSE(biRing.begin().isValid());
 }
 
 TEST_F(BiRingFixture, BiRing_Begin_OneElementList)
@@ -113,12 +113,207 @@ TEST_F(BiRingFixture, BiRing_Begin_MultipleElementsList)
 }
 
 // CBEGIN
+TEST_F(BiRingFixture, BiRing_CBegin_Empty)
+{
+    ASSERT_FALSE(biRing.cbegin().isValid());
+}
+
+TEST_F(BiRingFixture, BiRing_CBegin_OneElementList)
+{
+    insertNodes(biRing, 1);
+    const auto toCheck = biRing.cbegin();
+    ASSERT_EQ(toCheck.isValid(), true);
+    ASSERT_EQ(toCheck.getInfo(), 0);
+}
+
 // EXIST
+TEST_F(BiRingFixture, BiRing_Exist_Empty)
+{
+    ASSERT_FALSE(biRing.exist("0"));
+}
+
+TEST_F(BiRingFixture, BiRing_Exist_OneElementList)
+{
+    insertNodes(biRing, 1);
+    ASSERT_TRUE(biRing.exist("0"));
+}
+
+TEST_F(BiRingFixture, BiRing_Exist_MultipleElementsList)
+{
+    insertNodes(biRing, 5);
+    ASSERT_TRUE(biRing.exist("0"));
+    ASSERT_TRUE(biRing.exist("1"));
+    ASSERT_TRUE(biRing.exist("2"));
+    ASSERT_TRUE(biRing.exist("3"));
+    ASSERT_TRUE(biRing.exist("4"));
+    ASSERT_FALSE(biRing.exist("5"));
+}
+
 // GET
+TEST_F(BiRingFixture, BiRing_Get_Empty)
+{
+    ASSERT_FALSE(biRing.get("0").isValid());
+}
+
+TEST_F(BiRingFixture, BiRing_Get_OneElementList)
+{
+    insertNodes(biRing, 1);
+    const auto toCheck = biRing.get("0");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "0");
+}
+
+TEST_F(BiRingFixture, BiRing_Get_MultipleElementsList)
+{
+    insertNodes(biRing, 5);
+    const auto toCheck = biRing.get("2");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "2");
+}
+
+TEST_F(BiRingFixture, BiRing_Get_ElementNotInList)
+{
+    insertNodes(biRing, 3);
+    const auto toCheck = biRing.get("5");
+    ASSERT_FALSE(toCheck.isValid());
+}
+
 // CGET
+TEST_F(BiRingFixture, BiRing_CGet_Empty)
+{
+    ASSERT_FALSE(biRing.cget("0").isValid());
+}
+
+TEST_F(BiRingFixture, BiRing_CGet_OneElementList)
+{
+    insertNodes(biRing, 1);
+    const auto toCheck = biRing.cget("0");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "0");
+}
+
+TEST_F(BiRingFixture, BiRing_CGet_MultipleElementsList)
+{
+    insertNodes(biRing, 5);
+    const auto toCheck = biRing.cget("2");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "2");
+}
+
+TEST_F(BiRingFixture, BiRing_CGet_ElementNotInList)
+{
+    insertNodes(biRing, 3);
+    const auto toCheck = biRing.cget("5");
+    ASSERT_FALSE(toCheck.isValid());
+}
+
 // PUSH
+TEST_F(BiRingFixture, BiRing_Push_Empty)
+{
+    biRing.push("0", 0);
+    const auto toCheck = biRing.get("0");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "0");
+}
+
+TEST_F(BiRingFixture, BiRing_Push_OneElementList)
+{
+    insertNodes(biRing, 1);
+    biRing.push("1", 1);
+    const auto toCheck = biRing.get("1");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "1");
+}
+
 // INSERT
+TEST_F(BiRingFixture, BiRing_Insert_OneElementList)
+{
+    insertNodes(biRing, 1);
+    auto itBegin = biRing.begin();
+    const auto toCheck = biRing.insert(itBegin, "1", 1);
+    ASSERT_EQ(biRing.size(), 2);
+    ASSERT_EQ(toCheck.getKey(), "1");
+}
+
+TEST_F(BiRingFixture, BiRing_Insert_MultipleElementsList)
+{
+    insertNodes(biRing, 5);
+    auto itBegin = biRing.begin();
+    const auto toCheck = biRing.insert(itBegin, "5", 5);
+    ASSERT_EQ(biRing.size(), 6);
+    ASSERT_EQ(toCheck.getKey(), "5");
+}
+
+TEST_F(BiRingFixture, BiRing_Insert_InvalidIterator)
+{
+    insertNodes(biRing, 5);
+    auto it = BiRing<std::string, int>::iterator();
+    const auto toCheck = biRing.insert(it, "5", 5);
+    ASSERT_EQ(biRing.size(), 5);
+    ASSERT_FALSE(toCheck.isValid());
+}
+
+TEST_F(BiRingFixture, BiRing_Insert_OtherIterator)
+{
+    insertNodes(biRing, 5);
+    auto biRingOther = createEmptyRing();
+    insertNodes(biRingOther, 5);
+    auto itOther = biRingOther.begin();
+    const auto toCheck = biRing.insert(itOther, "5", 5);
+    ASSERT_EQ(biRing.size(), 5);
+    ASSERT_FALSE(toCheck.isValid());
+}
+
 // REMOVE
+TEST_F(BiRingFixture, BiRing_Remove_OneElementList)
+{
+    insertNodes(biRing, 1);
+    auto itBegin = biRing.begin();
+    const auto toCheck = biRing.remove(itBegin);
+    ASSERT_TRUE(biRing.isEmpty());
+    ASSERT_FALSE(itBegin.isValid());
+    ASSERT_FALSE(toCheck.isValid());
+}
+
+TEST_F(BiRingFixture, BiRing_Remove_MultipleElementsList)
+{
+    insertNodes(biRing, 5);
+    auto itBegin = biRing.begin();
+    const auto toCheck = biRing.remove(itBegin);
+    ASSERT_EQ(biRing.size(), 4);
+    ASSERT_FALSE(itBegin.isValid());
+    ASSERT_TRUE(toCheck.isValid());
+}
+
+TEST_F(BiRingFixture, BiRing_Remove_OtherIterator)
+{
+    insertNodes(biRing, 5);
+    auto biRingOther = createEmptyRing();
+    insertNodes(biRingOther, 5);
+    auto itOther = biRingOther.begin();
+    const auto toCheck = biRing.remove(itOther);
+    ASSERT_EQ(biRing.size(), 5);
+    ASSERT_FALSE(toCheck.isValid());
+}
+
 // OPERATOR=
-// OPERATOR<<
-// APPEND
+TEST_F(BiRingFixture, BiRing_OperatorAssign_Empty)
+{
+    const BiRing<std::string, int> biRingOther;
+    biRing = biRingOther;
+    ASSERT_TRUE(biRing.isEmpty());
+}
+
+TEST_F(BiRingFixture, BiRing_OperatorAssign_OneElementList)
+{
+    insertNodes(biRing, 1);
+    const BiRing<std::string, int> biRingOther = biRing;
+    ASSERT_EQ(biRing.size(), biRingOther.size());
+}
+
+TEST_F(BiRingFixture, BiRing_OperatorAssign_MultipleElementsList)
+{
+    insertNodes(biRing, 5);
+    const BiRing<std::string, int> biRingOther = biRing;
+    ASSERT_EQ(biRing.size(), biRingOther.size());
+}

@@ -27,7 +27,6 @@ bool BiRing<Key, Info>::clear()
     {
         it = this->remove(it);
     }
-
     return true;
 }
 
@@ -53,7 +52,7 @@ template <typename Key, typename Info>
 typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::cbegin() const
 {
     iterator it = this->begin();
-    return constIterator(it.pCurr, it.pRing);
+    return const_iterator(it.pCurr, it.pRing);
 }
 
 template <typename Key, typename Info>
@@ -79,7 +78,7 @@ template <typename Key, typename Info>
 typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::cget(const Key& key, const unsigned int occ) const
 {
     iterator it = this->get(key, occ);
-    return constIterator(it.pCurr, it.pRing);
+    return const_iterator(it.pCurr, it.pRing);
 }
 
 template <typename Key, typename Info>
@@ -111,14 +110,14 @@ typename BiRing<Key, Info>::Node* BiRing<Key, Info>::insert(Node* target, const 
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::insert(base_iterator& target, const Key& key, const Info& info)
+typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::insert(iterator& target, const Key& key, const Info& info)
 {
     if (!target.isValid() || this->isOtherIter(target))
     {
         return const_iterator();
     }
-    Node* newNode = this->insert(target, key, info);
-    return constIterator(newNode, this);
+    Node* newNode = this->insert(target.pCurr, key, info);
+    return const_iterator(newNode, this);
 }
 
 template <typename Key, typename Info>
@@ -144,13 +143,14 @@ typename BiRing<Key, Info>::Node* BiRing<Key, Info>::remove(Node* target)
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::remove(base_iterator& target)
+typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::remove(iterator& target)
 {
     if (!target.isValid() || this->isOtherIter(target))
     {
         return const_iterator();
     }
     Node* prevNode = this->remove(target.pCurr);
+    target.pCurr = nullptr;
     return const_iterator(prevNode, this);
 }
 

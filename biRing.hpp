@@ -85,8 +85,8 @@ public:
 
 	const_iterator push(const Key& key, const Info& info);
 
-	const_iterator insert(base_iterator& target, const Key& key, const Info& info);
-	const_iterator remove(base_iterator& target);
+	const_iterator insert(iterator& target, const Key& key, const Info& info);
+	const_iterator remove(iterator& target);
 	
 	BiRing& operator=(const BiRing& src);
 
