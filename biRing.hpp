@@ -87,8 +87,6 @@ public:
 
 	const_iterator push(const Key& key, const Info& info);
 
-	//TODO: Check if return iterator for popFront, popBack and erase
-	//TODO: What if the position iterator belongs to another bi_ring?
 	const_iterator insert(base_iterator& target, const Key& key, const Info& info);
 	const_iterator remove(base_iterator& target);
 	
