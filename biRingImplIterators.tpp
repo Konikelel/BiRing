@@ -4,20 +4,22 @@
 
 #include <stdexcept>
 
+#include "biRing.hpp"
+
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::operator++()
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::operator++()
 {
 	return this->move(true);
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::operator--()
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::operator--()
 {
 	return this->move(false);
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator bi_ring<Key, Info>::iterator::operator++(int)
+typename biRing<Key, Info>::iterator biRing<Key, Info>::iterator::operator++(int)
 {
 	auto temp = *this;
 	this->operator++();
@@ -25,7 +27,7 @@ typename bi_ring<Key, Info>::iterator bi_ring<Key, Info>::iterator::operator++(i
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator bi_ring<Key, Info>::iterator::operator--(int)
+typename biRing<Key, Info>::iterator biRing<Key, Info>::iterator::operator--(int)
 {
 	auto temp = *this;
 	this->operator--();
@@ -33,33 +35,33 @@ typename bi_ring<Key, Info>::iterator bi_ring<Key, Info>::iterator::operator--(i
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator bi_ring<Key, Info>::iterator::operator+(const int nr)
+typename biRing<Key, Info>::iterator biRing<Key, Info>::iterator::operator+(const int nr)
 {
 	auto temp = *this;
 	return this->move(temp, nr);
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator bi_ring<Key, Info>::iterator::operator-(const int nr)
+typename biRing<Key, Info>::iterator biRing<Key, Info>::iterator::operator-(const int nr)
 {
 	auto temp = *this;
 	return this->move(temp, -nr);
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::operator+=(const int nr)
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::operator+=(const int nr)
 {
 	return this->move(nr);
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::operator-=(const int nr)
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::operator-=(const int nr)
 {
 	return this->move(-nr);
 }
 
 template <typename Key, typename Info> //NOLINT
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::operator=(const iterator& other)
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::operator=(const iterator& other)
 {
 	if (this != &other) {
 		this->pCurr = other.pCurr;
@@ -68,7 +70,7 @@ typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::operator=(c
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::move(const bool forward)
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::move(const bool forward)
 {
 	if (!this->isValid())
 	{
@@ -79,7 +81,7 @@ typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::move(const 
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::move(iterator& obj, const int nr)
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::move(iterator& obj, const int nr)
 {
 	for(int i = 0; i < nr; ++i)
 	{
@@ -89,7 +91,7 @@ typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::move(iterat
 }
 
 template <typename Key, typename Info>
-typename bi_ring<Key, Info>::iterator& bi_ring<Key, Info>::iterator::move(const int nr)
+typename biRing<Key, Info>::iterator& biRing<Key, Info>::iterator::move(const int nr)
 {
 	return this->move(*this, nr);
 }
