@@ -3,6 +3,8 @@
 
 
 #include "BiRing.hpp"
+#include "biRingIterator.hpp"
+#include "biRingConstIterator.hpp"
 
 template <typename Key, typename Info>
 bool BiRing<Key, Info>::clear()

@@ -1,6 +1,7 @@
 #include "biRingFixture.hpp"
 
 #include "biRing.hpp"
+#include "biRingConstIterator.hpp"
 
 void BiRingFixture::insertNodes(BiRing<std::string, int> &ring, const unsigned int number, const unsigned int startNr)
 {
