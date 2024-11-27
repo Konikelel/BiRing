@@ -103,6 +103,8 @@ typename BiRing<Key, Info>::Node* BiRing<Key, Info>::insert(Node* target, const 
     {
         newNode->prev = target;
         newNode->next = target->next;
+        target->next->prev = newNode;
+        target->next = newNode;
     }
     ++this->count;
     return newNode;
@@ -122,23 +124,23 @@ typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::insert(base_iterat
 template <typename Key, typename Info>
 typename BiRing<Key, Info>::Node* BiRing<Key, Info>::remove(Node* target)
 {
-    Node* nextNode = target->next;
-    if (target->prev != target->next)
+    Node* prevNode = target->prev;
+    if (target != target->prev)
     {
         target->prev->next = target->next;
         target->next->prev = target->prev;
     }
     else
     {
-        this->pStart = nullptr;
+        prevNode = nullptr;
     }
     if (this->pStart == target)
     {
-        this->pStart = nextNode;
+        this->pStart = prevNode;
     }
     delete target;
     --this->count;
-    return nextNode;
+    return prevNode;
 }
 
 template <typename Key, typename Info>
@@ -148,8 +150,8 @@ typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::remove(base_iterat
     {
         return const_iterator();
     }
-    Node* nextNode = this->remove(target.pCurr);
-    return const_iterator(nextNode, this);
+    Node* prevNode = this->remove(target.pCurr);
+    return const_iterator(prevNode, this);
 }
 
 template <typename Key, typename Info>
@@ -165,7 +167,7 @@ BiRing<Key, Info>& BiRing<Key, Info>::operator=(const BiRing& src)
 template <typename Key, typename Info>
 bool BiRing<Key, Info>::isOtherIter(const base_iterator& it) const
 {
-    return it.pRing == this;
+    return it.pRing != this;
 }
 
 template <typename Key, typename Info>

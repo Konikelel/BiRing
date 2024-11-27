@@ -2,8 +2,6 @@
 #define SINGLY_LINKED_LIST_H
 
 
-#include <iostream>
-
 template <typename Key, typename Info>
 class BiRing
 {
