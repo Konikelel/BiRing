@@ -19,19 +19,19 @@ TEST_F(BiRingFixture, BiRing_CopyConstructor_Empty)
 TEST_F(BiRingFixture, BiRing_CopyConstructor_OneElementList)
 {
     insertNodes(biRing, 1);
-    const auto copiedList = BiRing(biRing);
+    const auto copiedRing = BiRing(biRing);
 
-    ASSERT_EQ(biRing.size(), copiedList.size());
-    ASSERT_EQ(biRing.begin().getKey(), copiedList.begin().getKey());
+    ASSERT_EQ(biRing.size(), copiedRing.size());
+    ASSERT_EQ(biRing.begin().getKey(), copiedRing.begin().getKey());
 }
 
 TEST_F(BiRingFixture, BiRing_CopyConstructor_MultipleElementsList)
 {
     insertNodes(biRing, 10);
-    const auto copiedList = BiRing(biRing);
+    const auto copiedRing = BiRing(biRing);
 
-    ASSERT_EQ(biRing.size(), copiedList.size());
-    ASSERT_EQ(biRing.begin().getKey(), copiedList.begin().getKey());
+    ASSERT_EQ(biRing.size(), copiedRing.size());
+    ASSERT_EQ(biRing.begin().getKey(), copiedRing.begin().getKey());
 }
 
 // BI_RING DESTRUCTOR

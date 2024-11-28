@@ -42,8 +42,8 @@ typename BiRing<Key, Info>::iterator BiRing<Key, Info>::get(const Key& key, unsi
 template <typename Key, typename Info>
 typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::push(const Key& key, const Info& info)
 {
-    this->pStart = this->insert(this->pStart, key, info);
-    return const_iterator(this->pStart, this);
+    Node* newNode = this->insert(this->pStart, key, info);
+    return const_iterator(newNode, this);
 }
 
 template <typename Key, typename Info>
@@ -86,18 +86,19 @@ typename BiRing<Key, Info>::Node* BiRing<Key, Info>::remove(Node* target)
     {
         target->prev->next = target->next;
         target->next->prev = target->prev;
+
+        if (this->pStart == target)
+        {
+            this->pStart = target->next;
+        }
     }
     else
     {
-        prevNode = nullptr;
-    }
-    if (this->pStart == target)
-    {
-        this->pStart = prevNode;
+        this->pStart = prevNode = nullptr;
     }
     delete target;
     --this->count;
-    return prevNode;
+    return prevNode ? prevNode : this->pStart;
 }
 
 template <typename Key, typename Info>
@@ -131,7 +132,7 @@ bool BiRing<Key, Info>::append(const BiRing& other)
     }
     for (auto nr = 0, itOther = other.begin(); nr < other.count; ++nr, ++itOther)
     {
-        this->insert(this->pStart, itOther.pCurr->key, itOther.pCurr->info);
+        this->push(itOther.pCurr->key, itOther.pCurr->info);
     }
     return true;
 }
