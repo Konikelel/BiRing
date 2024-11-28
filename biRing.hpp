@@ -11,11 +11,10 @@ class BiRing
 	struct Node {
 		Key key;
 		Info info;
-		unsigned int nr;
 		Node* next;
 		Node* prev;
 		Node(const Key& key, const Info& info) : Node(key, info, nullptr, nullptr) {}
-		Node(const Key& key, const Info& info, Node* prev, Node* next, const unsigned int nr = 1) : key(key), info(info), nr(nr), next(next), prev(prev) {}
+		Node(const Key& key, const Info& info, Node* prev, Node* next) : key(key), info(info), next(next), prev(prev) {}
 		[[nodiscard]] bool isKeyValueMatch(Node* other) { return this->key == other->key && this->info == other->info; }
 	};
 
@@ -49,7 +48,6 @@ public:
 	const_iterator cinsert(iterator& target, const Key& key, const Info& info) { return this->insert(target, key, info); }
 
 	BiRing& operator=(const BiRing& src);
-private:
 	bool append(const BiRing& other);
 };
 

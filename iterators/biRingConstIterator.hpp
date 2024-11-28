@@ -35,7 +35,6 @@ public:
 
     [[nodiscard]] const Key& getKey() const { return this->pCurr->key; }
     [[nodiscard]] const Info& getInfo() const { return this->pCurr->info; }
-    [[nodiscard]] const unsigned int& getNr() const { return this->pCurr->nr; }
     [[nodiscard]] const Info& operator*() const { return this->pCurr->info; }
 };
 

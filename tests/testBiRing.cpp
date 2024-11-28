@@ -109,7 +109,7 @@ TEST_F(BiRingFixture, BiRing_Begin_MultipleElementsList)
     insertNodes(biRing, 5);
     const auto toCheck = biRing.begin();
     ASSERT_EQ(toCheck.isValid(), true);
-    ASSERT_EQ(toCheck.getInfo(), 4);
+    ASSERT_EQ(toCheck.getInfo(), 0);
 }
 
 // CBEGIN
@@ -316,4 +316,37 @@ TEST_F(BiRingFixture, BiRing_OperatorAssign_MultipleElementsList)
     insertNodes(biRing, 5);
     const BiRing<std::string, int> biRingOther = biRing;
     ASSERT_EQ(biRing.size(), biRingOther.size());
+}
+
+// APPEND
+TEST_F(BiRingFixture, BiRing_Append_Empty)
+{
+    const BiRing<std::string, int> biRingOther;
+    ASSERT_FALSE(biRing.append(biRingOther));
+}
+
+TEST_F(BiRingFixture, BiRing_Append_OneElementList)
+{
+    insertNodes(biRing, 1);
+    BiRing<std::string, int> toCheck;
+    insertNodes(toCheck, 1, 1);
+    ASSERT_TRUE(toCheck.append(biRing));
+    ASSERT_EQ(toCheck.size(), 2);
+    auto it = toCheck.begin();
+    ASSERT_EQ(it++.getKey(), "1");
+    ASSERT_EQ(it++.getKey(), "0");
+}
+
+TEST_F(BiRingFixture, BiRing_Append_MultipleElementsList)
+{
+    insertNodes(biRing, 2);
+    BiRing<std::string, int> toCheck;
+    insertNodes(toCheck, 2, 2);
+    ASSERT_TRUE(toCheck.append(biRing));
+    ASSERT_EQ(toCheck.size(), 4);
+    auto it = toCheck.begin();
+    ASSERT_EQ(it++.getKey(), "2");
+    ASSERT_EQ(it++.getKey(), "3");
+    ASSERT_EQ(it++.getKey(), "0");
+    ASSERT_EQ(it++.getKey(), "1");
 }

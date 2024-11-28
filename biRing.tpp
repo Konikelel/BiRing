@@ -58,10 +58,10 @@ typename BiRing<Key, Info>::Node* BiRing<Key, Info>::insert(Node* target, const 
     }
     else
     {
-        newNode->prev = target;
-        newNode->next = target->next;
-        target->next->prev = newNode;
-        target->next = newNode;
+        newNode->next = target;
+        newNode->prev = target->prev;
+        target->prev->next = newNode;
+        target->prev = newNode;
     }
     ++this->count;
     return newNode;

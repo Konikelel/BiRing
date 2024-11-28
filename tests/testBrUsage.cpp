@@ -34,10 +34,14 @@ TEST_F(BiRingFixture, BiRingUsage_Filter_OneElementNoMatch)
 
 TEST_F(BiRingFixture, BiRingUsage_Filter_MultipleElements)
 {
-    insertNodes(biRing, 3);
+    insertNodes(biRing, 5);
     const auto result = filter(biRing, pred);
-    ASSERT_EQ(result.size(), 2);
-    ASSERT_EQ(result.begin().getKey(), "0");
+    ASSERT_EQ(result.size(), 3);
+    auto it = result.begin();
+    ASSERT_EQ(it++.getKey(), "0");
+    ASSERT_EQ(it++.getKey(), "2");
+    ASSERT_EQ(it++.getKey(), "4");
+    ASSERT_EQ(it++.getKey(), "0");
 }
 
 // JOINING

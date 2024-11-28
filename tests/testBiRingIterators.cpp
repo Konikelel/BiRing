@@ -27,10 +27,10 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorIncrement_MultipleElementList)
     auto it = biRing.begin();
     ASSERT_NO_THROW(++it);
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "0");
+    ASSERT_EQ(it.getKey(), "1");
     ASSERT_NO_THROW(++it);
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "1");
+    ASSERT_EQ(it.getKey(), "2");
 }
 
 // OPERATOR--
@@ -47,10 +47,10 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorDecrement_MultipleElementList)
     auto it = biRing.begin();
     ASSERT_NO_THROW(--it);
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "1");
+    ASSERT_EQ(it.getKey(), "2");
     ASSERT_NO_THROW(--it);
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "0");
+    ASSERT_EQ(it.getKey(), "1");
 }
 
 // OPERATOR++(INT)
@@ -67,10 +67,10 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorIncrementPostfix_MultipleElementLi
     auto it = biRing.begin();
     ASSERT_NO_THROW(it++); //NOLINT
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "0");
+    ASSERT_EQ(it.getKey(), "1");
     ASSERT_NO_THROW(it++); //NOLINT
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "1");
+    ASSERT_EQ(it.getKey(), "2");
 }
 
 // OPERATOR--(INT)
@@ -87,10 +87,10 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorDecrementPostfix_MultipleElementLi
     auto it = biRing.begin();
     ASSERT_NO_THROW(it--); //NOLINT
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "1");
+    ASSERT_EQ(it.getKey(), "2");
     ASSERT_NO_THROW(it--); //NOLINT
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "0");
+    ASSERT_EQ(it.getKey(), "1");
 }
 
 // OPERATOR+(INT NR)
@@ -106,7 +106,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorPlus_MultipleElementList)
     insertNodes(biRing, 3);
     auto it = biRing.begin();
     const auto toCheck = it + 2;
-    ASSERT_EQ(toCheck.getKey(), "1");
+    ASSERT_EQ(toCheck.getKey(), "2");
 }
 
 // OPERATOR-(INT NR)
@@ -122,7 +122,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorMinus_MultipleElementList)
     insertNodes(biRing, 3);
     auto it = biRing.begin();
     const auto toCheck = it - 2;
-    ASSERT_EQ(toCheck.getKey(), "0");
+    ASSERT_EQ(toCheck.getKey(), "1");
 }
 
 
@@ -140,7 +140,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorPlusEqual_MultipleElementList)
     auto it = biRing.begin();
     ASSERT_NO_THROW(it += 2);
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "1");
+    ASSERT_EQ(it.getKey(), "2");
 }
 
 // OPERATOR-=(INT NR)
@@ -157,7 +157,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorMinusEqual_MultipleElementList)
     auto it = biRing.begin();
     ASSERT_NO_THROW(it -= 2);
     ASSERT_TRUE(it.isValid());
-    ASSERT_EQ(it.getKey(), "0");
+    ASSERT_EQ(it.getKey(), "1");
 }
 
 // OPERATOR=
@@ -175,7 +175,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorAssign_MultipleElementList)
     const auto it = biRing.begin();
     const BiRing<std::string, int>::iterator& toCheck = it;
     ASSERT_TRUE(toCheck.isValid());
-    ASSERT_EQ(toCheck.getKey(), "2");
+    ASSERT_EQ(toCheck.getKey(), "0");
 }
 
 // ISVALID
