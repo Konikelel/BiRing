@@ -25,17 +25,26 @@ BiRing<Key, Info> filter(const BiRing<Key, Info>& source, bool (pred)(const Key&
 // Joins two rings summing Info if the same key is present in both rings
 // (Info must have operator + defined)
 template<typename Key, typename Info>
-BiRing<Key, Info> join(const BiRing<Key, Info>& first,
-				const BiRing<Key, Info>& second);
+BiRing<Key, Info> join(const BiRing<Key, Info>& first, const BiRing<Key, Info>& second)
+{
+	// auto result = BiRing<Key, Info>();
+	// for(auto nr = 0, it = source.cbegin(); nr < source.size(); ++nr, ++it)
+	// {
+	// 	if (pred(it.getKey()))
+	// 	{
+	// 		result.push(it.getKey(), it.getInfo());
+	// 	}
+	// }
+	// return result;
+}
 
 
 // Unique
 // Eliminates repetitions of the key value
-// Resulting collection contains elemenst with unique keys.
+// Resulting collection contains elements with unique keys.
 // aggregate function is used to compute new info value for two elements with the same key.
 template<typename Key, typename Info>
-BiRing<Key, Info> unique(const BiRing<Key, Info>& source,
-Info(aggregate)(const Key&, const Info&, const Info&));
+BiRing<Key, Info> unique(const BiRing<Key, Info>& source, Info(aggregate)(const Key&, const Info&, const Info&));
 
 
 // Shuffle
@@ -44,9 +53,6 @@ Info(aggregate)(const Key&, const Info&, const Info&));
 // If we reach the end of the collection and need more elements,
 // we start again from the beginning of the collection - cyclically
 template<typename Key, typename Info>
-BiRing<Key, Info> shuffle(
-	const BiRing<Key, Info>& first, unsigned int fcnt,
-	const BiRing<Key, Info>& second, unsigned int scnt,
-	unsigned int reps);
+BiRing<Key, Info> shuffle(const BiRing<Key, Info>& first, unsigned int fcnt, const BiRing<Key, Info>& second, unsigned int scnt, unsigned int reps);
 
 #endif //BR_USAGE_H

@@ -69,7 +69,7 @@ protected:
     {
         if (!this->isValid())
         {
-            throw std::runtime_error("Cannot move not valid baseIterator");
+            throw std::runtime_error("Cannot move not valid iterator");
         }
         this->pCurr = forward ? this->pCurr->next : this->pCurr->prev;
         return static_cast<Derived&>(*this);
