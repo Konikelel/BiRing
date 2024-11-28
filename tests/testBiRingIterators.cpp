@@ -105,14 +105,137 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorPlus_MultipleElementList)
 {
     insertNodes(biRing, 3);
     auto it = biRing.begin();
-    auto toCheck = it + 2;
+    const auto toCheck = it + 2;
     ASSERT_EQ(toCheck.getKey(), "1");
 }
 
 // OPERATOR-(INT NR)
+TEST_F(BiRingFixture, BiRingIterators_OperatorMinus_Empty)
+{
+    auto it = BiRing<std::string, int>::iterator();
+    ASSERT_THROW(it - 1, std::runtime_error);
+    ASSERT_FALSE(it.isValid());
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorMinus_MultipleElementList)
+{
+    insertNodes(biRing, 3);
+    auto it = biRing.begin();
+    const auto toCheck = it - 2;
+    ASSERT_EQ(toCheck.getKey(), "0");
+}
+
+
 // OPERATOR+=(INT NR)
+TEST_F(BiRingFixture, BiRingIterators_OperatorPlusEqual_Empty)
+{
+    auto it = BiRing<std::string, int>::iterator();
+    ASSERT_THROW(it += 1, std::runtime_error);
+    ASSERT_FALSE(it.isValid());
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorPlusEqual_MultipleElementList)
+{
+    insertNodes(biRing, 3);
+    auto it = biRing.begin();
+    ASSERT_NO_THROW(it += 2);
+    ASSERT_TRUE(it.isValid());
+    ASSERT_EQ(it.getKey(), "1");
+}
+
 // OPERATOR-=(INT NR)
+TEST_F(BiRingFixture, BiRingIterators_OperatorMinusEqual_Empty)
+{
+    auto it = BiRing<std::string, int>::iterator();
+    ASSERT_THROW(it -= 1, std::runtime_error);
+    ASSERT_FALSE(it.isValid());
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorMinusEqual_MultipleElementList)
+{
+    insertNodes(biRing, 3);
+    auto it = biRing.begin();
+    ASSERT_NO_THROW(it -= 2);
+    ASSERT_TRUE(it.isValid());
+    ASSERT_EQ(it.getKey(), "0");
+}
+
 // OPERATOR=
+TEST_F(BiRingFixture, BiRingIterators_OperatorAssign_Empty)
+{
+    auto it = BiRing<std::string, int>::iterator();
+    const auto it2 = BiRing<std::string, int>::iterator();
+    it = it2;
+    ASSERT_FALSE(it.isValid());
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorAssign_MultipleElementList)
+{
+    insertNodes(biRing, 3);
+    const auto it = biRing.begin();
+    const BiRing<std::string, int>::iterator& toCheck = it;
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "2");
+}
+
 // ISVALID
+TEST_F(BiRingFixture, BiRingIterators_IsValid_Empty)
+{
+    const auto it = BiRing<std::string, int>::iterator();
+    ASSERT_FALSE(it.isValid());
+}
+
+TEST_F(BiRingFixture, BiRingIterators_IsValid_NotEmpty)
+{
+    insertNodes(biRing, 3);
+    const auto it = biRing.begin();
+    ASSERT_TRUE(it.isValid());
+}
+
 // OPERATOR==
+TEST_F(BiRingFixture, BiRingIterators_OperatorEqual_Empty)
+{
+    const auto it = BiRing<std::string, int>::iterator();
+    const auto it2 = BiRing<std::string, int>::iterator();
+    ASSERT_TRUE(it == it2);
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorEqual_NotEmptyEqual)
+{
+    insertNodes(biRing, 3);
+    const auto it = biRing.begin();
+    const auto it2 = biRing.begin();
+    ASSERT_TRUE(it == it2);
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorEqual_NotEmptyNotEqual)
+{
+    insertNodes(biRing, 3);
+    const auto it = biRing.begin();
+    const auto it2 = biRing.begin() + 1;
+    ASSERT_FALSE(it == it2);
+}
+
 // OPERATOR!=
+TEST_F(BiRingFixture, BiRingIterators_OperatorNotEqual_Empty)
+{
+    const auto it = BiRing<std::string, int>::iterator();
+    const auto it2 = BiRing<std::string, int>::iterator();
+    ASSERT_FALSE(it != it2);
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorNotEqual_NotEmptyEqual)
+{
+    insertNodes(biRing, 3);
+    const auto it = biRing.begin();
+    const auto it2 = biRing.begin();
+    ASSERT_FALSE(it != it2);
+}
+
+TEST_F(BiRingFixture, BiRingIterators_OperatorNotEqual_NotEmptyNotEqual)
+{
+    insertNodes(biRing, 3);
+    const auto it = biRing.begin();
+    const auto it2 = biRing.begin() + 1;
+    ASSERT_TRUE(it != it2);
+}

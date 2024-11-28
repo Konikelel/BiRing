@@ -35,7 +35,7 @@ public:
 	
 	iterator begin() const;
 	const_iterator cbegin() const { return this->begin(); }
-	bool exist(const Key& key, const unsigned int occ = 1) const { return this->get(key, occ).isValid(); }
+	bool exist(const Key& key, const unsigned int occ = 1) const { return this->cget(key, occ).isValid(); }
 
 	const_iterator push(const Key& key, const Info& info);
 	iterator get(const Key& key, unsigned int occ = 1) const;

@@ -77,7 +77,7 @@ protected:
     
     virtual Derived& move(Derived& obj, const int nr)
     {
-        for(int i = 0; i < nr; ++i)
+        for(int i = abs(nr); 0 < i; --i)
         {
             obj.move(nr > 0);
         }
