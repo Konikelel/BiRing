@@ -81,6 +81,7 @@ typename BiRing<Key, Info>::iterator BiRing<Key, Info>::insert(iterator& target,
 template <typename Key, typename Info>
 typename BiRing<Key, Info>::Node* BiRing<Key, Info>::remove(Node* target)
 {
+    if (target == nullptr) { return nullptr; }
     Node* prevNode = target->prev;
     if (target != target->prev)
     {
