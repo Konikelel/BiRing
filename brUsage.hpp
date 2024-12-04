@@ -14,7 +14,7 @@ BiRing<Key, Info> filter(const BiRing<Key, Info>& source, bool (pred)(const Key&
 	{
 		if (pred(it.getKey()))
 		{
-			result.push(it.getKey(), it.getInfo());
+			result.pushBack(it.getKey(), it.getInfo());
 		}
 	}
 	return result;
@@ -40,7 +40,7 @@ BiRing<Key, Info> join(const BiRing<Key, Info>& first, const BiRing<Key, Info>& 
 		}
 		else
 		{
-			result.push(it.getKey(), it.getInfo());
+			result.pushBack(it.getKey(), it.getInfo());
 		}
 	}
 	return result;
@@ -64,7 +64,7 @@ BiRing<Key, Info> unique(const BiRing<Key, Info>& source, Info(aggregate)(const 
 		}
 		else
 		{
-			result.push(it.getKey(), it.getInfo());
+			result.pushBack(it.getKey(), it.getInfo());
 		}
 	}
 	return result;
@@ -88,14 +88,14 @@ BiRing<Key, Info> shuffle(const BiRing<Key, Info>& first, unsigned int fcnt, con
 		{
 			for(unsigned int nr = 0; nr < fcnt; ++nr, ++itFirst)
 			{
-				result.push(itFirst.getKey(), itFirst.getInfo());
+				result.pushBack(itFirst.getKey(), itFirst.getInfo());
 			}
 		}
 		if(itSecond.isValid())
 		{
 			for(unsigned int nr = 0; nr < scnt; ++nr, ++itSecond)
 			{
-				result.push(itSecond.getKey(), itSecond.getInfo());
+				result.pushBack(itSecond.getKey(), itSecond.getInfo());
 			}
 		}
 	}

@@ -40,10 +40,18 @@ typename BiRing<Key, Info>::iterator BiRing<Key, Info>::get(const Key& key, unsi
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::push(const Key& key, const Info& info)
+typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::pushBack(const Key& key, const Info& info)
 {
     Node* newNode = this->insert(this->pStart, key, info);
     return const_iterator(newNode, this);
+}
+
+template <typename Key, typename Info>
+typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::pushFront(const Key& key, const Info& info)
+{
+    auto it = this->pushBack(key, info);
+    this->pStart = it.pCurr;
+    return it;
 }
 
 template <typename Key, typename Info>
@@ -133,7 +141,7 @@ bool BiRing<Key, Info>::append(const BiRing& other)
     }
     for (auto nr = 0, itOther = other.begin(); nr < other.count; ++nr, ++itOther)
     {
-        this->push(itOther.pCurr->key, itOther.pCurr->info);
+        this->pushBack(itOther.pCurr->key, itOther.pCurr->info);
     }
     return true;
 }
