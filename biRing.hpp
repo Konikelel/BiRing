@@ -50,6 +50,10 @@ public:
 
 	BiRing& operator=(const BiRing& src);
 	bool append(const BiRing& other);
+
+	// Easier to test when not static in tests
+	iterator getEmptyIterator() { return {}; } //NOLINT
+	const_iterator getEmptyConstIterator() { return {}; }  //NOLINT
 };
 
 #include "biRing.tpp"

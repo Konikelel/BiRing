@@ -269,7 +269,7 @@ TEST_F(BiRingFixture, BiRing_Insert_MultipleElementsList)
 TEST_F(BiRingFixture, BiRing_Insert_InvalidIterator)
 {
     insertNodes(biRing, 5);
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     const auto toCheck = biRing.insert(it, "5", 5);
     ASSERT_EQ(biRing.size(), 5);
     ASSERT_FALSE(toCheck.isValid());

@@ -2,7 +2,6 @@
 #define BI_RING_IMPL_H
 
 
-#include "BiRing.hpp"
 #include "iterators/biRingIterator.hpp"
 #include "iterators/biRingConstIterator.hpp"
 

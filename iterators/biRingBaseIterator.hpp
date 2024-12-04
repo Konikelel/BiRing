@@ -11,9 +11,6 @@ template <typename Derived>
 class BiRing<Key, Info>::base_iterator
 {
 public:
-    base_iterator() : pCurr(nullptr), pRing(nullptr) {}
-    base_iterator(Node* node, const BiRing* ring) : pCurr(node), pRing(ring) {}
-    virtual ~base_iterator() = default;
 
     virtual Derived& operator+=(const int nr) { return this->move(nr); }
     virtual Derived& operator-=(const int nr) { return this->move(-nr); }
@@ -62,6 +59,10 @@ public:
     bool operator!=(const Derived& other) const { return this->pCurr != other.pCurr; }
     friend BiRing;
 protected:
+    base_iterator(Node* node, const BiRing* ring) : pCurr(node), pRing(ring) {}
+    base_iterator() : pCurr(nullptr), pRing(nullptr) {}
+    virtual ~base_iterator() = default;
+    
     Node* pCurr;
     const BiRing* pRing;
 		
