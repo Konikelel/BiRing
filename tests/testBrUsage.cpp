@@ -180,3 +180,39 @@ TEST_F(BiRingFixture, BiRingUsage_Shuffle_MultipleElements)
     ASSERT_EQ(it.getKey(), "1");
     ASSERT_EQ(it++.getInfo(), 1);
 }
+
+// FILTER TASK
+TEST_F(BiRingFixture, BiRingUsage_FilterTask_Empty)
+{
+    const auto result = filter(biRing, 0, 1);
+    ASSERT_TRUE(result.isEmpty());
+}
+
+TEST_F(BiRingFixture, BiRingUsage_FilterTask_OneElementMatch)
+{
+    insertNodes(biRing, 5);
+    const auto result = filter(biRing, 1, 3);
+    ASSERT_EQ(result.size(), 1);
+    ASSERT_EQ(result.begin().getKey(), "2");
+}
+
+TEST_F(BiRingFixture, BiRingUsage_FilterTask_OneElementNoMatch)
+{
+    insertNodes(biRing, 4, 1);
+    const auto result = filter(biRing, 0, 1);
+    ASSERT_TRUE(result.isEmpty());
+}
+
+TEST_F(BiRingFixture, BiRingUsage_FilterTask_MultipleElementsMatch)
+{
+    insertNodes(biRing, 8);
+    const auto result = filter(biRing, 1, 5);
+    ASSERT_EQ(result.size(), 3);
+    auto it = result.cbegin();
+    ASSERT_EQ(it.getKey(), "2");
+    ASSERT_EQ(it++.getInfo(), 2);
+    ASSERT_EQ(it.getKey(), "3");
+    ASSERT_EQ(it++.getInfo(), 3);
+    ASSERT_EQ(it.getKey(), "4");
+    ASSERT_EQ(it++.getInfo(), 4);
+}

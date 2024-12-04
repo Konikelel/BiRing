@@ -102,4 +102,21 @@ BiRing<Key, Info> shuffle(const BiRing<Key, Info>& first, unsigned int fcnt, con
 	return result;
 }
 
+// Filter Task
+// Write a function template which creates a new bi_ring collection containing key - info paris form the source ring
+// which info member is between low and high parameters of the function
+template<typename Key, typename Info>
+BiRing<Key, Info> filter(const BiRing<Key, Info>& source, const Info& low, const Info& high)
+{
+	auto result = BiRing<Key, Info>();
+	for(auto nr = 0, it = source.cbegin(); nr < source.size(); ++nr, ++it)
+	{
+		if (it.getInfo() > low && it.getInfo() < high)
+		{
+			result.pushBack(it.getKey(), it.getInfo());
+		}
+	}
+	return result;
+}
+
 #endif //BR_USAGE_H
