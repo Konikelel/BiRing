@@ -49,6 +49,7 @@ public:
 
 	BiRing& operator=(const BiRing& src);
 	bool append(const BiRing& other);
+	void removePairs();
 };
 
 #include "biRing.tpp"

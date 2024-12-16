@@ -118,6 +118,7 @@ BiRing<Key, Info>& BiRing<Key, Info>::operator=(const BiRing& src)
 {
     if (this != &src)
     {
+        this->clear();
         this->append(src);
     }
     return *this;
@@ -135,6 +136,19 @@ bool BiRing<Key, Info>::append(const BiRing& other)
         this->push(itOther.pCurr->key, itOther.pCurr->info);
     }
     return true;
+}
+
+template <typename Key, typename Info>
+void BiRing<Key, Info>::removePairs()
+{
+    for (auto nr = 0, it = this->begin(); nr < this->size() - 1; ++nr, ++it)
+    {
+        if (it.pCurr->key == it.pCurr->next->key)
+        {
+            it = this->remove(++it);
+            it = this->remove(it);
+        }
+    }
 }
 
 

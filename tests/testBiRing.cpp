@@ -297,6 +297,14 @@ TEST_F(BiRingFixture, BiRing_Remove_OtherIterator)
 }
 
 // OPERATOR=
+TEST_F(BiRingFixture, BiRing_OperatorAssign_EmptyOther)
+{
+    insertNodes(biRing, 1);
+    const BiRing<std::string, int> biRingOther;
+    biRing = biRingOther;
+    ASSERT_TRUE(biRing.isEmpty());
+}
+
 TEST_F(BiRingFixture, BiRing_OperatorAssign_Empty)
 {
     const BiRing<std::string, int> biRingOther;
