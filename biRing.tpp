@@ -2,7 +2,6 @@
 #define BI_RING_IMPL_H
 
 
-#include "BiRing.hpp"
 #include "iterators/biRingIterator.hpp"
 #include "iterators/biRingConstIterator.hpp"
 
@@ -40,10 +39,18 @@ typename BiRing<Key, Info>::iterator BiRing<Key, Info>::get(const Key& key, unsi
 }
 
 template <typename Key, typename Info>
-typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::push(const Key& key, const Info& info)
+typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::pushBack(const Key& key, const Info& info)
 {
     Node* newNode = this->insert(this->pStart, key, info);
     return const_iterator(newNode, this);
+}
+
+template <typename Key, typename Info>
+typename BiRing<Key, Info>::const_iterator BiRing<Key, Info>::pushFront(const Key& key, const Info& info)
+{
+    auto it = this->pushBack(key, info);
+    this->pStart = it.pCurr;
+    return it;
 }
 
 template <typename Key, typename Info>
@@ -81,6 +88,7 @@ typename BiRing<Key, Info>::iterator BiRing<Key, Info>::insert(iterator& target,
 template <typename Key, typename Info>
 typename BiRing<Key, Info>::Node* BiRing<Key, Info>::remove(Node* target)
 {
+    if (target == nullptr) { return nullptr; }
     Node* prevNode = target->prev;
     if (target != target->prev)
     {
@@ -133,22 +141,9 @@ bool BiRing<Key, Info>::append(const BiRing& other)
     }
     for (auto nr = 0, itOther = other.begin(); nr < other.count; ++nr, ++itOther)
     {
-        this->push(itOther.pCurr->key, itOther.pCurr->info);
+        this->pushBack(itOther.pCurr->key, itOther.pCurr->info);
     }
     return true;
-}
-
-template <typename Key, typename Info>
-void BiRing<Key, Info>::removePairs()
-{
-    for (auto nr = 0, it = this->begin(); nr < this->size() - 1; ++nr, ++it)
-    {
-        if (it.pCurr->key == it.pCurr->next->key)
-        {
-            it = this->remove(++it);
-            it = this->remove(it);
-        }
-    }
 }
 
 

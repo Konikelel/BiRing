@@ -6,7 +6,7 @@ void BiRingFixture::insertNodes(BiRing<std::string, int> &ring, const unsigned i
 {
     for (unsigned int nr = startNr; nr < number + startNr; nr++)
     {
-        ring.push(std::to_string(nr), static_cast<int>(nr));
+        ring.pushBack(std::to_string(nr), static_cast<int>(nr));
     }
 }
 

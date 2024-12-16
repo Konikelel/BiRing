@@ -207,22 +207,44 @@ TEST_F(BiRingFixture, BiRing_CGet_ElementNotInList)
     ASSERT_FALSE(toCheck.isValid());
 }
 
-// PUSH
-TEST_F(BiRingFixture, BiRing_Push_Empty)
+// PUSH BACK
+TEST_F(BiRingFixture, BiRing_PushBack_Empty)
 {
-    biRing.push("0", 0);
+    biRing.pushBack("0", 0);
     const auto toCheck = biRing.get("0");
     ASSERT_TRUE(toCheck.isValid());
     ASSERT_EQ(toCheck.getKey(), "0");
+    ASSERT_TRUE(*biRing.cbegin() == *toCheck);
 }
 
-TEST_F(BiRingFixture, BiRing_Push_OneElementList)
+TEST_F(BiRingFixture, BiRing_PushBack_OneElementList)
 {
     insertNodes(biRing, 1);
-    biRing.push("1", 1);
+    biRing.pushBack("1", 1);
     const auto toCheck = biRing.get("1");
     ASSERT_TRUE(toCheck.isValid());
     ASSERT_EQ(toCheck.getKey(), "1");
+    ASSERT_FALSE(*biRing.cbegin() == *toCheck);
+}
+
+//PUSH FRONT
+TEST_F(BiRingFixture, BiRing_PushFront_Empty)
+{
+    biRing.pushFront("0", 0);
+    const auto toCheck = biRing.get("0");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "0");
+    ASSERT_TRUE(*biRing.cbegin() == *toCheck);
+}
+
+TEST_F(BiRingFixture, BiRing_PushFront_OneElementList)
+{
+    insertNodes(biRing, 1);
+    biRing.pushFront("1", 1);
+    const auto toCheck = biRing.get("1");
+    ASSERT_TRUE(toCheck.isValid());
+    ASSERT_EQ(toCheck.getKey(), "1");
+    ASSERT_TRUE(*biRing.cbegin() == *toCheck);
 }
 
 // INSERT
@@ -247,7 +269,7 @@ TEST_F(BiRingFixture, BiRing_Insert_MultipleElementsList)
 TEST_F(BiRingFixture, BiRing_Insert_InvalidIterator)
 {
     insertNodes(biRing, 5);
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     const auto toCheck = biRing.insert(it, "5", 5);
     ASSERT_EQ(biRing.size(), 5);
     ASSERT_FALSE(toCheck.isValid());

@@ -10,7 +10,6 @@
 template <typename Key, typename Info>
 class BiRing<Key, Info>::const_iterator final : public base_iterator<const_iterator>
 {
-public:
     using base_iterator<const_iterator>::base_iterator;
     const_iterator(const base_iterator<const_iterator>& other) //NOLINT
     {
@@ -32,10 +31,11 @@ public:
         this->pCurr = std::move(other.pCurr);
         this->pRing = std::move(other.pRing);
     }
-
+public:
     [[nodiscard]] const Key& getKey() const { return this->pCurr->key; }
     [[nodiscard]] const Info& getInfo() const { return this->pCurr->info; }
     [[nodiscard]] const Info& operator*() const { return this->pCurr->info; }
+    friend BiRing;
 };
 
 

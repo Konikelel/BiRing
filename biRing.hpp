@@ -38,7 +38,8 @@ public:
 	const_iterator cbegin() const { return this->begin(); }
 	bool exist(const Key& key, const unsigned int occ = 1) const { return this->cget(key, occ).isValid(); }
 
-	const_iterator push(const Key& key, const Info& info);
+	const_iterator pushBack(const Key& key, const Info& info);
+	const_iterator pushFront(const Key& key, const Info& info);
 	iterator get(const Key& key, unsigned int occ = 1) const;
 	const_iterator cget(const Key& key, const unsigned int occ = 1) const { return this->get(key, occ); }
 
@@ -49,7 +50,10 @@ public:
 
 	BiRing& operator=(const BiRing& src);
 	bool append(const BiRing& other);
-	void removePairs();
+
+	// Easier to test when not static in tests
+	iterator getEmptyIterator() { return {}; } //NOLINT
+	const_iterator getEmptyConstIterator() { return {}; }  //NOLINT
 };
 
 #include "biRing.tpp"

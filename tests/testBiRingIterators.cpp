@@ -7,8 +7,8 @@
 // CONSTRUCTORS
 TEST_F(BiRingFixture, BiRingIterators_Constructor_InitializeEmpty)
 {
-    const auto it = BiRing<std::string, int>::iterator();
-    const auto itConst = BiRing<std::string, int>::const_iterator();
+    const auto it = biRing.getEmptyIterator();
+    const auto itConst = biRing.getEmptyConstIterator();
     ASSERT_FALSE(it.isValid());
     ASSERT_FALSE(itConst.isValid());
 }
@@ -16,7 +16,7 @@ TEST_F(BiRingFixture, BiRingIterators_Constructor_InitializeEmpty)
 // OPERATOR++
 TEST_F(BiRingFixture, BiRingIterators_OperatorIncrement_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(++it, std::runtime_error);
     ASSERT_FALSE(it.isValid());
 }
@@ -36,7 +36,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorIncrement_MultipleElementList)
 // OPERATOR--
 TEST_F(BiRingFixture, BiRingIterators_OperatorDecrement_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(--it, std::runtime_error);
     ASSERT_FALSE(it.isValid());
 }
@@ -56,7 +56,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorDecrement_MultipleElementList)
 // OPERATOR++(INT)
 TEST_F(BiRingFixture, BiRingIterators_OperatorIncrementPostfix_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(it++, std::runtime_error); //NOLINT
     ASSERT_FALSE(it.isValid());
 }
@@ -76,7 +76,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorIncrementPostfix_MultipleElementLi
 // OPERATOR--(INT)
 TEST_F(BiRingFixture, BiRingIterators_OperatorDecrementPostfix_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(it--, std::runtime_error); //NOLINT
     ASSERT_FALSE(it.isValid());
 }
@@ -96,7 +96,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorDecrementPostfix_MultipleElementLi
 // OPERATOR+(INT NR)
 TEST_F(BiRingFixture, BiRingIterators_OperatorPlus_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(it + 1, std::runtime_error);
     ASSERT_FALSE(it.isValid());
 }
@@ -112,7 +112,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorPlus_MultipleElementList)
 // OPERATOR-(INT NR)
 TEST_F(BiRingFixture, BiRingIterators_OperatorMinus_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(it - 1, std::runtime_error);
     ASSERT_FALSE(it.isValid());
 }
@@ -129,7 +129,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorMinus_MultipleElementList)
 // OPERATOR+=(INT NR)
 TEST_F(BiRingFixture, BiRingIterators_OperatorPlusEqual_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(it += 1, std::runtime_error);
     ASSERT_FALSE(it.isValid());
 }
@@ -146,7 +146,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorPlusEqual_MultipleElementList)
 // OPERATOR-=(INT NR)
 TEST_F(BiRingFixture, BiRingIterators_OperatorMinusEqual_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
     ASSERT_THROW(it -= 1, std::runtime_error);
     ASSERT_FALSE(it.isValid());
 }
@@ -163,8 +163,8 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorMinusEqual_MultipleElementList)
 // OPERATOR=
 TEST_F(BiRingFixture, BiRingIterators_OperatorAssign_Empty)
 {
-    auto it = BiRing<std::string, int>::iterator();
-    const auto it2 = BiRing<std::string, int>::iterator();
+    auto it = biRing.getEmptyIterator();
+    const auto it2 = biRing.getEmptyIterator();
     it = it2;
     ASSERT_FALSE(it.isValid());
 }
@@ -181,7 +181,7 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorAssign_MultipleElementList)
 // ISVALID
 TEST_F(BiRingFixture, BiRingIterators_IsValid_Empty)
 {
-    const auto it = BiRing<std::string, int>::iterator();
+    const auto it = biRing.getEmptyIterator();
     ASSERT_FALSE(it.isValid());
 }
 
@@ -195,8 +195,8 @@ TEST_F(BiRingFixture, BiRingIterators_IsValid_NotEmpty)
 // OPERATOR==
 TEST_F(BiRingFixture, BiRingIterators_OperatorEqual_Empty)
 {
-    const auto it = BiRing<std::string, int>::iterator();
-    const auto it2 = BiRing<std::string, int>::iterator();
+    const auto it = biRing.getEmptyIterator();
+    const auto it2 = biRing.getEmptyIterator();
     ASSERT_TRUE(it == it2);
 }
 
@@ -219,8 +219,8 @@ TEST_F(BiRingFixture, BiRingIterators_OperatorEqual_NotEmptyNotEqual)
 // OPERATOR!=
 TEST_F(BiRingFixture, BiRingIterators_OperatorNotEqual_Empty)
 {
-    const auto it = BiRing<std::string, int>::iterator();
-    const auto it2 = BiRing<std::string, int>::iterator();
+    const auto it = biRing.getEmptyIterator();
+    const auto it2 = biRing.getEmptyIterator();
     ASSERT_FALSE(it != it2);
 }
 
