@@ -1,126 +1,36 @@
-# Algorithm and Data Structure Task #2
+# Project Description: Implementation of `bi_ring` Data Structure and Associated Functions
 
-## Part 1 - Design a `bi_ring` class
+This project focuses on the design and implementation of a class called `bi_ring`, which represents a collection of bidirectionally linked elements containing key-value pairs (Key and Info). The `bi_ring` class not only serves as a flexible data structure for managing pairs of related data but also incorporates functionality for enhanced data manipulation through iterator support and various external function templates.
 
-Design a class `bi_ring` to represent collection of bidirectionally linked elements containing Key and Info type values. Write unit tests for the designed class, at least one test per method.
+## Designing the `bi_ring` Class
 
-Note that here implementation of iterators is mandatory. const_iterator does not allow for ring modification.
-While thinking on class interface take into account four additional function templates declared below (with example results).
-It should be possible to implement these functions effectively using your `bi_ring` template.
+In the first part of this project, the primary objective is to create a robust class named `bi_ring`, which acts as a doubly linked list. The class is expected to include:
 
-```c++
-template <typename Key, typename Info>
-class bi_ring	// implemented as doubly linked list
-{
-public:
-	class iterator { /* … */ };
-	class const_iterator { /* … */ };
+- **Iterator Classes**: Design both an `iterator` and a `const_iterator` class for traversing the elements within the `bi_ring`. The `const_iterator` should prevent any modifications to the ring while providing access to the data.
+  
+- **Member Functions**: Implement various member functions that allow for dynamic interaction with the ring, including:
+  - Constructors and destructors to handle object lifecycle management.
+  - `push_front()`: To insert a new element at the front of the ring.
+  - `pop_front()`: To remove and return the first element.
+  - `insert()`: To add elements at specified positions.
+  - `erase()`: To remove elements from given positions.
 
-	bi_ring();
-	bi_ring(const bi_ring& src);
-	~bi_ring();
-	bi_ring& operator=(const bi_ring& src);
+The design should also consider the overall interface and utility of the `bi_ring` class, shaping it to facilitate the implementation of additional function templates that provide more complex operations on the data structure.
 
-	iterator push_front(const Key& key, const Info& info);
-	iterator pop_front();
+## Implementing Additional Function Templates
 
-	iterator insert(iterator position, …);
-	iterator erase(iterator position);
+The second part of the project is focused on creating external function templates that operate on the `bi_ring`. These templates are designed to perform specific operations on instances of `bi_ring`, enhancing its usability:
 
-	// what else can be useful in such a collection?
-	// use examples of additional functions to guide you in the interface design
-};
-```
+1. **Filtering**: 
+   - A template function to generate a new `bi_ring` which only contains key-value pairs meeting a specified predicate.
 
-## Part 2 – Implement additional function templates
-Write additional (external) function templates (not methods) paying attention to convenience of implementation.
+2. **Joining**: 
+   - A function that combines two `bi_ring` instances by summing the `Info` values of common keys, creating a new `bi_ring` with unique keys.
 
-```c++
-// Filtering
-// Resulting collection contains only the Key – Info pairs for which given predicate is true.
-template<typename Key, typename Info>
-bi_ring<Key, Info> filter(const bi_ring<Key, Info>& source, bool (pred)(const Key&));
-```
+3. **Unique**: 
+   - This function removes duplicate keys from a `bi_ring`, aggregating values of repeated keys with a provided aggregation function.
 
-### filter example:
-#### Parameters:
-    source => [uno:1, due:2, tre:3, quattro:4, cinque:5, sei:6, sette:7, otto:8]
-    pred => [](const std::string& str) { return str.size() > 3; }
+4. **Shuffle**: 
+   - A custom operation that allows interleaving elements from two separate `bi_ring` instances based on specified counts and repetitions, while cycling through the collections as needed.
 
-#### Result:
-    result => [quattro:4, cinque:5, sette:7, otto:8]
-
-```c++
-// Joining
-// Joins two rings summing Info if the same key is present in both rings
-// (Info must have operator + defined)
-// You can assume that in the input argumens keys are unique.
-template<typename Key, typename Info>
-bi_ring<Key, Info> join(const bi_ring<Key, Info>& first,
-				const bi_ring<Key, Info>& second);
-```
-
-### join example:
-#### Parameters:
-    first => [uno:1, due:1, tre:2, quattro:1]
-    second => [tre:1, due:1, quattro:3, cinque:5]
-
-#### Result:
-    result => [uno:1, due:2, tre:3, quattro:4, cinque:5]
-
-```c++
-// Unique
-// Eliminates repetitions of the key value
-// Resulting collection contains elemenst with unique keys.
-// aggregate function is used to compute new info value for two elements with the same key.
-template<typename Key, typename Info>
-bi_ring<Key, Info> unique(const bi_ring<Key, Info>& source,
-        Info(aggregate)(const Key&, const Info&, const Info&));
-```
-
-### unique example:
-#### Parameters:
-source => [one: uno, two : due, three : tre, one : eins, two : zwei,
-		    three : drei, four : vier, five : cinque, six : sechs,
-			seven : sieben, acht : otto, three : trzy, one : otto ]
-
-aggregate =>
-    unique<std::string, std::string>(src,
-        [](const std::string&, const std::string& i1, const std::string& i2)
-        {
-            return i1 + "-" + i2;
-        }
-    );
-
-#### Result:
-    result =>  [ one : uno-eins-otto, two : due-zwei, three : tre-drei-trzy,
-        four : vier, five : cinque, six : sechs, seven : sieben, acht : otto ]
-
-```c++
-// Shuffle
-// Very strange join (shuffle) operation taking fcnt elements from the first bi_ring
-// and scnt elements from the second bi_ring (repeated reps times)
-// If we reach the end of the collection and need more elements,
-// we start again from the beginning of the collection - cyclically
-template<typename Key, typename Info>
-bi_ring<Key, Info> shuffle(
-	const bi_ring<Key, Info>& first, unsigned int fcnt,
-	const bi_ring<Key, Info>& second, unsigned int scnt,
-	unsigned int reps);
-```
-
-### unique example:
-#### Parameters:
-first => [uno:1, due:2, tre:3, quattro:4]
-fcnt => 1
-second => [bir:1, iki:2, uc:3, dort:4, bes:5]
-scnt => 2
-reps => 3
-
-#### Result:
-result => [uno:1, bir:1, iki:2, due:2, uc:3, dort:4, tre:3, bes:5, bir:1]
-
-
-## Part 3 - During December 4th lab class
-You'll be given specification of the function/template performing operation on `bi_ring` collection.
-You'll have to implement this function and you'll have five minutes to present implementation of this function.
+Each template function is crafted to ensure ease of implementation by utilizing the capabilities of the `bi_ring` class.
